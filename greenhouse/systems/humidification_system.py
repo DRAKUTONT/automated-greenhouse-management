@@ -1,6 +1,6 @@
 from typing import List
-from sensors.humidity_and_temperature_sensor import HumidityAndTemperatureSensor
-from tools.humidifier import Humidifier
+from greenhouse.sensors.humidity_and_temperature_sensor import HumidityAndTemperatureSensor
+from greenhouse.devices.humidifier import Humidifier
 
 
 class HumidificationSystem:
@@ -11,6 +11,12 @@ class HumidificationSystem:
         self.min_humidity = min_humidity
 
         self.emergency_mode = False
+
+    def set_min_humidity(self, min_humidity: int):
+        self.min_humidity = min_humidity
+
+    def get_min_humidity(self):
+        return self.min_humidity
 
     def get_current_humidity(self) -> dict:
         data = {}

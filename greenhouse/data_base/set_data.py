@@ -1,4 +1,4 @@
-from data_base.connect_to_db import connect_to_data_base
+from greenhouse.data_base.connect_to_db import connect_to_data_base
 
 
 def clear_data_base():  # this method will be implemented later

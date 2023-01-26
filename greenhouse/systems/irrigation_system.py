@@ -1,6 +1,6 @@
 from typing import List
-from sensors.soil_humidity_sensor import SoilHumiditySensor
-from tools.sprinkler import Sprinkler
+from greenhouse.sensors.soil_humidity_sensor import SoilHumiditySensor
+from greenhouse.devices.sprinkler import Sprinkler
 
 
 class IrrigationSystem:
@@ -11,6 +11,12 @@ class IrrigationSystem:
         self.min_soil_humidity = min_soil_humidity
 
         self.emergency_mode = False
+
+    def set_min_soil_humidity(self, min_soil_humidity: int):
+        self.min_soil_humidity = min_soil_humidity
+
+    def get_min_soil_humidity(self):
+        return self.min_soil_humidity
 
     def get_current_humidity(self) -> dict:
         data = {}

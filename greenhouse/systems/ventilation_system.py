@@ -1,15 +1,21 @@
 from typing import List
-from sensors.humidity_and_temperature_sensor import HumidityAndTemperatureSensor
-from tools.windows import Windows
+from greenhouse.sensors.humidity_and_temperature_sensor import HumidityAndTemperatureSensor
+from greenhouse.devices.windows import Window
 
 
 class VentilationSystem:
-    def __init__(self, sensors: List[HumidityAndTemperatureSensor], windows: Windows, max_temperature: int):
+    def __init__(self, sensors: List[HumidityAndTemperatureSensor], window: Window, max_temperature: int):
         self.sensors = sensors
-        self.windows = windows
+        self.window = window
         self.max_temperature = max_temperature
 
         self.emergency_mode = False
+
+    def set_max_temperature(self, max_temperature: int):
+        self.max_temperature = max_temperature
+
+    def get_max_temperature(self):
+        return self.max_temperature
 
     def get_current_temperatures(self) -> dict:
         data = {}
@@ -24,10 +30,10 @@ class VentilationSystem:
 
     def open_windows(self):
         if self.calculate_average_temperature() > self.max_temperature or self.emergency_mode:
-            self.windows.open()
+            self.window.open()
 
     def close_windows(self):
-        self.windows.close()
+        self.window.close()
 
     def enable_emergency_mode(self):
         self.emergency_mode = True

@@ -1,11 +1,11 @@
-from network.transporter import Transporter
+from greenhouse.network.transporter import Transporter
 
 
-class Humidifier:
-    def __init__(self):
+class AbstractDevice:
+    def __init__(self, url: str):
         self.is_work = False
 
-        self.url = f"https://dt.miet.ru/ppo_it/api/total_hum"
+        self.url = url
         self.transporter = Transporter(self.url)
 
     def enable(self):
