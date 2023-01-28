@@ -1,4 +1,4 @@
-from greenhouse.devices.abstract_device import AbstractDevice
+from greenhouse_management.devices.abstract_device import AbstractDevice
 
 
 class Window(AbstractDevice):

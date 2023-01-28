@@ -1,4 +1,4 @@
-from greenhouse.network import Transporter
+from greenhouse_management.network.transporter import Transporter
 
 
 class HumidityAndTemperatureSensor:

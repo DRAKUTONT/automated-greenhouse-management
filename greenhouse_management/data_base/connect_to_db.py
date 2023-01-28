@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def connect_to_data_base(query: str, mode: str = 'r'):
+def connect_to_database(query: str, mode: str = 'r'):
     connection = sqlite3.connect('greenhouse_db.db')
     cursor = connection.cursor()
 

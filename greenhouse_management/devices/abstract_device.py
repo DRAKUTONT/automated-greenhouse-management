@@ -1,4 +1,4 @@
-from greenhouse.network.transporter import Transporter
+from greenhouse_management.network.transporter import Transporter
 
 
 class AbstractDevice:

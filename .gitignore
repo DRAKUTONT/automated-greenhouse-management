@@ -1,3 +1,4 @@
 .idea
 **/__pycache__/**
-greenhouse/data_base/greenhouse_db.db
+greenhouse_management/data_base/greenhouse_db.db
+greenhouse_management/greenhouse_management_system.py

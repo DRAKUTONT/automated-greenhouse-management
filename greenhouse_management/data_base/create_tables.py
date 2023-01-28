@@ -1,4 +1,4 @@
-from greenhouse.data_base.connect_to_db import connect_to_data_base
+from greenhouse_management.data_base.connect_to_db import connect_to_database
 
 
 def create_tables():
@@ -31,4 +31,4 @@ def create_tables():
                 "id"	INTEGER
             );'''
 
-    connect_to_data_base(query, mode='w')
+    connect_to_database(query, mode='w')

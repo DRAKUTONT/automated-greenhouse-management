@@ -1,11 +1,11 @@
 from typing import List
 
-from greenhouse.data_base.connect_to_db import connect_to_data_base
+from greenhouse_management.data_base.connect_to_db import connect_to_database
 
 
 def get_temperatures() -> List[dict]:
     query = '''SELECT * FROM temperature'''
-    result = connect_to_data_base(query)
+    result = connect_to_database(query)
 
     data = []
     for record in result:
@@ -21,7 +21,7 @@ def get_temperatures() -> List[dict]:
 
 def get_humidity() -> List[dict]:
     query = '''SELECT * FROM humidity'''
-    result = connect_to_data_base(query)
+    result = connect_to_database(query)
 
     data = []
     for record in result:
@@ -37,7 +37,7 @@ def get_humidity() -> List[dict]:
 
 def get_soil_humidity() -> List[dict]:
     query = '''SELECT * FROM soil_humidity'''
-    result = connect_to_data_base(query)
+    result = connect_to_database(query)
 
     data = []
     for record in result:
