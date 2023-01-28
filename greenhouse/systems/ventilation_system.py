@@ -28,12 +28,12 @@ class VentilationSystem:
         average_temp = sum(self.get_current_temperatures().values()) / len(self.get_current_temperatures().values())
         return average_temp
 
-    def open_windows(self):
+    def enable_device(self):
         if self.calculate_average_temperature() > self.max_temperature or self.emergency_mode:
-            self.window.open()
+            self.window.enable()
 
-    def close_windows(self):
-        self.window.close()
+    def disable_device(self):
+        self.window.disable()
 
     def enable_emergency_mode(self):
         self.emergency_mode = True

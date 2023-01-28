@@ -9,3 +9,6 @@ def connect_to_data_base(query: str, mode: str = 'r'):
 
     if mode == 'r':
         return cursor.fetchall()
+
+    if mode == 'w':
+        connection.commit()

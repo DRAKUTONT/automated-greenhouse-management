@@ -18,22 +18,22 @@ class IrrigationSystem:
     def get_min_soil_humidity(self):
         return self.min_soil_humidity
 
-    def get_current_humidity(self) -> dict:
+    def get_current_soil_humidity(self) -> dict:
         data = {}
         for sensor in self.sensors:
-            data[sensor.number] = int(sensor.get_data()['humidity'])
+            data[sensor.number] = int(sensor.get_data()['soil_humidity'])
 
         return data
 
     def calculate_average_soil_humidity(self) -> float:
-        average_temp = sum(self.get_current_humidity().values()) / len(self.get_current_humidity().values())
+        average_temp = sum(self.get_current_soil_humidity().values()) / len(self.get_current_soil_humidity().values())
         return average_temp
 
-    def enable_sprinkler(self, number):
+    def enable_device(self, number):
         if self.calculate_average_soil_humidity() < self.min_soil_humidity or self.emergency_mode:
             self.sprinklers[number].enable()
 
-    def disable_sprinkler(self, number):
+    def disable_device(self, number):
         self.sprinklers[number].disable()
 
     def enable_emergency_mode(self):

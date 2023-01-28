@@ -1,41 +1,51 @@
+from typing import List
+
 from greenhouse.data_base.connect_to_db import connect_to_data_base
 
 
-def get_temperatures() -> dict[str, float]:
+def get_temperatures() -> List[dict]:
     query = '''SELECT * FROM temperature'''
     result = connect_to_data_base(query)
 
-    data = {}
-    for i, item in enumerate(result[:-1]):
-        data[f'temp_{i + 1}'] = item
+    data = []
+    for record in result:
+        params = {}
+        for i, item in enumerate(record[:-2]):
+            params[f'temp_{i + 1}'] = item
 
-    data['average_temp'] = result[-1]
+        params['average_temp'] = record[-2]
+        data.append(params)
 
     return data
 
 
-def get_humidity() -> dict[str, float]:
+def get_humidity() -> List[dict]:
     query = '''SELECT * FROM humidity'''
     result = connect_to_data_base(query)
 
-    data = {}
-    for i, item in enumerate(result[:-1]):
-        data[f'hum_{i + 1}'] = item
+    data = []
+    for record in result:
+        params = {}
+        for i, item in enumerate(record[:-2]):
+            params[f'hum_{i + 1}'] = item
 
-    data['average_hum'] = result[-1]
+        params['average_hum'] = record[-2]
+        data.append(params)
 
     return data
 
 
-def get_soil_humidity() -> dict[str, float]:
-    query = '''SELECT * FROM humidity'''
+def get_soil_humidity() -> List[dict]:
+    query = '''SELECT * FROM soil_humidity'''
     result = connect_to_data_base(query)
 
-    data = {}
-    for i, item in enumerate(result[:-1]):
-        data[f'soil_hum_{i + 1}'] = item
+    data = []
+    for record in result:
+        params = {}
+        for i, item in enumerate(record[:-2]):
+            params[f'soil_hum_{i + 1}'] = item
 
-    data['average_soil_hum'] = result[-1]
+        params['average_soil_hum'] = record[-2]
+        data.append(params)
 
     return data
-

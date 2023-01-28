@@ -29,11 +29,11 @@ class HumidificationSystem:
         average_temp = sum(self.get_current_humidity().values()) / len(self.get_current_humidity().values())
         return average_temp
 
-    def enable_humidifier(self):
+    def enable_device(self):
         if self.calculate_average_humidity() < self.min_humidity or self.emergency_mode:
             self.humidifier.enable()
 
-    def disable_humidifier(self):
+    def disable_device(self):
         self.humidifier.disable()
 
     def enable_emergency_mode(self):
