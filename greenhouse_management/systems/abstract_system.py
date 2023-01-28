@@ -22,8 +22,8 @@ class AbstractSystem:
     def get_current_sensors_values(self) -> dict:  # this method will be implemented by the heirs
         pass
 
-    def calculate_average_sensors_value(self) -> float:
-        average_value = sum(self.get_current_sensors_values().values()) / len(self.get_current_sensors_values().values())
+    def calculate_average_sensors_value(self, data) -> float:
+        average_value = sum(data.values()) / len(data.values())
         return average_value
 
     def enable_emergency_mode(self):

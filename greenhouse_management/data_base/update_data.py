@@ -6,7 +6,7 @@ def clear_data_base():
     connect_to_database(query, mode='w')
 
 
-def update_temperatures(data: dict[str, float]):
+def update_temperature(data: dict[str, float]):
     need_values = ', '.join([f'{key} = {value}' for key, value in data.items()])
     query = f'''UPDATE temperature SET {need_values} WHERE id = (SELECT min(id) from temperature)'''
 

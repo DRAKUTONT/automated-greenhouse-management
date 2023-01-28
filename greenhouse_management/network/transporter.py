@@ -1,4 +1,5 @@
 import requests
+from greenhouse_management.constants import TOKEN
 
 
 class Transporter:
@@ -6,7 +7,7 @@ class Transporter:
         self.url = url
 
     def set_state(self, params: dict):
-        requests.patch(url=self.url, params=params)
+        requests.patch(url=self.url, params=params, headers={'X-Auth-Token': TOKEN})
 
     def get_state(self) -> dict:
         response = requests.get(url=self.url)

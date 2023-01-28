@@ -52,9 +52,9 @@ class Greenhouse:
 
     def get_systems_data(self):
         data = {
-            'ventilation_system': self.ventilation_system.get_current_sensors_values(),
-            'humidification_system': self.humidification_system.get_current_sensors_values(),
-            'irrigation_system': self.irrigation_system.get_current_sensors_values()
+            'ventilation_system': self.ventilation_system.get_data(),
+            'humidification_system': self.humidification_system.get_data(),
+            'irrigation_system': self.irrigation_system.get_data()
         }
 
         return data

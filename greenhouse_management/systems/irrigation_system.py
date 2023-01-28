@@ -10,18 +10,20 @@ class IrrigationSystem(AbstractSystem):
         super(IrrigationSystem, self).__init__(sensors=sensors, device=devices, parameter=parameter)
 
     def get_data(self):
-        data = {**self.get_current_sensors_values(), 'average_soil_hum': self.calculate_average_sensors_value()}
-        return data
+        return self.get_current_sensors_values(need_average_value=True)
 
-    def get_current_sensors_values(self) -> dict:
+    def get_current_sensors_values(self, need_average_value=False) -> dict:
         data = {}
         for sensor in self.sensors:
             data[f'soil_hum_{sensor.number}'] = float(sensor.get_data()['humidity'])
 
+        if need_average_value:
+            data['average_soil_hum'] = self.calculate_average_sensors_value(data)
+
         return data
 
     def enable_device(self, device_id: int):
-        if self.calculate_average_sensors_value() < self.parameter or self.emergency_mode:
+        if self.calculate_average_sensors_value(self.get_current_sensors_values()) < self.parameter or self.emergency_mode:
             self.device[device_id].enable()
 
     def disable_device(self, device_id: int):
