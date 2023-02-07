@@ -4,29 +4,26 @@ import matplotlib.pyplot as plt
 import os
 
 
-def draw_graphic(data: List[list], filename: str, suptitle: str, graphic_count):
-    fig, axs = plt.subplots(nrows=graphic_count, ncols=1)
+def draw_graph_average_values(temp_data: list, hum_data: list, filename: str, value_count: int):
+    plt.plot(temp_data, 'r', label='Средняя температура', lw=1)
+    plt.plot(hum_data, 'b', label='Средняя влажность', lw=1)
 
-    fig.suptitle(suptitle)
+    plt.xticks(ticks=list(range(0, value_count, 2)), labels=list(range(0, value_count // 2)))
+    plt.grid()
+    plt.legend(loc=2)
+    plt.savefig(filename, bbox_inches='tight', dpi=900)
+    plt.close()
 
-    for i, item in enumerate(data):
-        axs[i].plot(item)
 
-    plt.savefig(filename)
+def draw_sensors_graphics(sensors_data: List[list], filename: str, value_count: int):
+    for i, item in enumerate(sensors_data):
+        plt.plot(item, label=f'Сенсор {i + 1}', lw=1)
 
-
-def draw_grid_graphics(data: List[list], filename: str, suptitle: str, rows_count, cols_count):
-    fig, axs = plt.subplots(nrows=rows_count, ncols=cols_count)
-
-    fig.suptitle(suptitle)
-
-    index = 0
-    for row in range(rows_count):
-        for col in range(cols_count):
-            axs[row, col].plot(data[index])
-            index += 1
-
-    plt.savefig(filename)
+    plt.xticks(ticks=list(range(0, value_count, 2)), labels=list(range(0, value_count // 2)))
+    plt.grid()
+    plt.legend(loc=2)
+    plt.savefig(filename, bbox_inches='tight', dpi=900)
+    plt.close()
 
 
 def del_graphic(filename: str):

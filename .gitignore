@@ -1,3 +1,5 @@
 .idea
 **/__pycache__/**
 **/greenhouse_db.db
+**/test.py
+**/*.png
