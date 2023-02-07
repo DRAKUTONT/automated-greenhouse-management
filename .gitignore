@@ -3,3 +3,4 @@
 **/greenhouse_db.db
 **/test.py
 **/*.png
+telegram_bot/on_startup.py
