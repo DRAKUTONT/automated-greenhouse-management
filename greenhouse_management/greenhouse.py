@@ -17,6 +17,7 @@ class Greenhouse:
         self.max_temperature = max_temperature
         self.min_humidity = min_humidity
         self.min_soil_humidity = min_soil_humidity
+        self.emergency_mode = False
 
         self.ventilation_system = VentilationSystem(
             sensors=[HumidityAndTemperatureSensor(i + 1) for i in range(TEMP_SENSORS_COUNT)],
@@ -59,10 +60,42 @@ class Greenhouse:
 
         return data
 
+    def is_window_worked(self) -> bool:
+        return self.ventilation_system.get_device_state()
+
+    def set_window_state(self, state: bool):
+        if state:
+            self.ventilation_system.enable_device()
+        else:
+            self.ventilation_system.disable_device()
+
+    def is_humidifier_worked(self) -> bool:
+        return self.ventilation_system.get_device_state()
+
+    def set_humidifier_state(self, state: bool):
+        if state:
+            self.humidification_system.enable_device()
+        else:
+            self.humidification_system.disable_device()
+
+    def is_sprinkler_worked(self, device_id: int) -> bool:
+        return self.irrigation_system.get_device_state(device_id)
+
+    def set_sprinkler_state(self, state: bool, device_id: int):
+        if state:
+            self.irrigation_system.enable_device(device_id)
+        else:
+            self.irrigation_system.disable_device(device_id)
+
+    def get_emergency_mode_status(self):
+        return self.emergency_mode
+
     def enable_emergency_mode(self):
+        self.emergency_mode = True
         for system in self.systems:
             system.enable_emergency_mode()
 
     def disable_emergency_mode(self):
+        self.emergency_mode = False
         for system in self.systems:
             system.disable_emergency_mode()

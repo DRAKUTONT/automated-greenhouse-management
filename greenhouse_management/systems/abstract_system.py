@@ -26,6 +26,9 @@ class AbstractSystem:
         average_value = sum(data.values()) / len(data.values())
         return average_value
 
+    def get_emergency_mode_status(self):
+        return self.emergency_mode
+
     def enable_emergency_mode(self):
         self.emergency_mode = True
 
