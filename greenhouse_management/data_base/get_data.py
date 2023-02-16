@@ -3,6 +3,15 @@ from typing import List
 from greenhouse_management.data_base.connect_to_db import connect_to_database
 
 
+def get_max_id() -> int:
+    query = '''SELECT max(id) FROM temperature'''
+    result = connect_to_database(query)[0][0]
+    if result:
+        return int(result)
+
+    return 0
+
+
 def get_temperatures() -> List[dict]:
     query = '''SELECT temp_1, temp_2, temp_3, temp_4, average_temp FROM temperature'''
     result = connect_to_database(query)

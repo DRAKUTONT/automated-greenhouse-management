@@ -1,7 +1,7 @@
 from greenhouse_management.data_base.connect_to_db import connect_to_database
 
 
-def clear_data_base():
+def clear_database():
     query = '''DROP TABLE temperature, humidity, soil_humidity'''
     connect_to_database(query, mode='w')
 
