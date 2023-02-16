@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram.types import Message
-from aiogram.filters import Command
+from aiogram.filters import Command, Text
+
 from telegram_bot.keyboards.reply_keyboards.main_keyboards import create_main_keyboard
 
 router = Router()
@@ -10,13 +11,18 @@ router = Router()
 async def start(message: Message):
     await message.answer("""
     /start - перезапустить бота
-    /help - подсказка
-    /temp_and_hum - температура и влажность
-    /soil_humidity - влажность почвы
-    /set_T - установить T
-    /set_H - установить H
-    /set_Hb - установить Hb
-    /emergency_management - экстренное управление""", reply_markup=create_main_keyboard())
+/help - подсказка
+/temp_and_hum - температура и влажность
+/soil_humidity - влажность почвы
+/set_T - установить T
+/set_H - установить H
+/set_Hb - установить Hb
+/emergency_management - экстренное управление""", reply_markup=create_main_keyboard())
+
+
+@router.message(Text(text=['Назад', '/back']))
+async def back(message: Message):
+    await message.answer('<-', reply_markup=create_main_keyboard())
 
 
 
