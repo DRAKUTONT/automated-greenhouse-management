@@ -36,8 +36,8 @@ async def graph_temp_and_hum_average_value_handler(message: Message,
 async def graph_temp_and_hum_average_value_handler(message: Message,
                                                    greenhouse_management_system: GreenhouseManagementSystem):
     greenhouse_management_system.draw_sensors_graphic(sensor_type='temp_and_hum')
-    await message.answer_photo(FSInputFile('temp_graphic.png'))
-    await message.answer_photo(FSInputFile('hum_graphic.png'))
+    await message.answer_photo(FSInputFile('temp_graphic.png'), caption='Данные за последние 20 секунд')
+    await message.answer_photo(FSInputFile('hum_graphic.png'), caption='Данные за последние 20 секунд')
 
 
 @router.message(Text(text=['Влажность почвы', '/soil_humidity']))
@@ -53,4 +53,22 @@ async def soil_hum_handler(message: Message, greenhouse_management_system: Green
 async def graph_temp_and_hum_average_value_handler(message: Message,
                                                    greenhouse_management_system: GreenhouseManagementSystem):
     greenhouse_management_system.draw_sensors_graphic(sensor_type='soil_hum')
-    await message.answer_photo(FSInputFile('soil_hum_graphic.png'))
+    await message.answer_photo(FSInputFile('soil_hum_graphic.png'), caption='Данные за последние 20 секунд')
+
+
+@router.message(Text(text=['Таблица с данными средней температуры и влажности']))
+async def average_value_table_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
+    greenhouse_management_system.create_average_value_table()
+    await message.answer_document(FSInputFile('average_values.csv'), caption='Данные за последние 20 секунд')
+
+
+@router.message(Text(text=['Таблица с данными температуры и влажности']))
+async def temp_and_hum_table_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
+    greenhouse_management_system.create_sensors_table(sensor_type='temp_and_hum')
+    await message.answer_document(FSInputFile('temp_and_hum.csv'), caption='Данные за последние 20 секунд')
+
+
+@router.message(Text(text=['Таблица с данными влажности почвы']))
+async def soil_hum_table_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
+    greenhouse_management_system.create_sensors_table(sensor_type='soil_hum')
+    await message.answer_document(FSInputFile('soil_hum.csv'), caption='Данные за последние 20 секунд')

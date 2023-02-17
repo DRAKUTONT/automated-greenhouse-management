@@ -3,10 +3,8 @@ from aiogram.types import Message
 from aiogram.filters import Command, Text
 
 from greenhouse_management.greenhouse_management_system import GreenhouseManagementSystem
-from telegram_bot.keyboards.reply_keyboards.devices_keyboard import create_window_device_keyboard, \
-    create_humidifier_device_keyboard, create_sprinklers_device_keyboard, create_emergency_management_keyboard, \
-    create_sprinkler_device_keyboard
-from telegram_bot.utils.formatting import formatting_sensor_data_for_user, formatting_device_data_for_user
+from telegram_bot.keyboards.reply_keyboards.devices_keyboard import *
+from telegram_bot.utils.formatting import formatting_device_data_for_user
 from greenhouse_management.exceptions.temperature_exception import TemperatureParameterException
 from greenhouse_management.exceptions.humidity_exception import HumidityParameterException
 from greenhouse_management.exceptions.soil_humidity_exception import SoilHumidityParameterException
@@ -79,8 +77,7 @@ async def sprinkler_device_handler(message: Message, greenhouse_management_syste
             device_id=device_id) else 'Выключено'
         await message.answer(f'Статус: {device_status}',
                              reply_markup=create_sprinkler_device_keyboard(sprinkler_id=device_id + 1,
-                                                                           is_work=greenhouse_management_system.is_sprinkler_work(
-                                                                               device_id)))
+                                                                           is_work=greenhouse_management_system.is_sprinkler_work(device_id)))
 
 
 @router.message(Text(startswith='Включить полив №'))
@@ -129,3 +126,24 @@ async def disable_emergency_management_handler(message: Message,
                                                greenhouse_management_system: GreenhouseManagementSystem):
     greenhouse_management_system.disable_emergency_mode()
     await message.answer(f'Экстренное управление выключено', reply_markup=create_emergency_management_keyboard(False))
+
+
+@router.message(Text(text='Параметры'))
+async def parameters_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
+    text = '\n'.join([f'{key}: {value}' for key, value in greenhouse_management_system.get_parameters().items()])
+    await message.answer(text, reply_markup=create_parameters_keyboard())
+
+
+@router.message(Text(text='T'))
+async def t_parameter_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
+    await message.answer('---')
+
+
+@router.message(Text(text='H'))
+async def h_parameter_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
+    await message.answer('---')
+
+
+@router.message(Text(text='Hb'))
+async def hb_parameter_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
+    await message.answer('---')

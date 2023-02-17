@@ -1,7 +1,6 @@
 from typing import List
 
 import matplotlib.pyplot as plt
-import os
 
 
 def draw_graph_average_values(temp_data: list, hum_data: list, filename: str, value_count: int, time: int):
@@ -24,7 +23,3 @@ def draw_sensors_graphics(sensors_data: List[list], filename: str, value_count: 
     plt.legend(loc=2)
     plt.savefig(filename, bbox_inches='tight', dpi=900)
     plt.close()
-
-
-def del_graphic(filename: str):
-    os.remove(filename)

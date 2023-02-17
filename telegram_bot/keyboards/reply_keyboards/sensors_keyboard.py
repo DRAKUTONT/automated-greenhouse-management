@@ -5,7 +5,9 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder
 def create_temp_and_hum_keyboard() -> ReplyKeyboardMarkup:
     builder = ReplyKeyboardBuilder()
 
-    builder.row(KeyboardButton(text='Таблица с данными температуры и влажности'), width=1)
+    builder.row(KeyboardButton(text='Таблица с данными температуры и влажности'),
+                KeyboardButton(text='Таблица с данными средней температуры и влажности'),
+                width=2)
 
     builder.row(KeyboardButton(text='Графики датчиков температуры и влажности'),
                 KeyboardButton(text='График средних значений'),

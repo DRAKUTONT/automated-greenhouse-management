@@ -46,3 +46,15 @@ def formatting_data_for_graphic(type_of_graphic: str, **data) -> Union[tuple, li
                            [i['soil_hum_6'] for i in soil_hum_data]]
 
         return soil_hum_values
+
+
+def formatting_data_for_tables(need_keys: list, data: list, new_keys):
+    list_with_formatted_data = []
+    for item in data:
+        formatted_data = {}
+        for need_key, new_key in zip(need_keys, new_keys):
+            formatted_data[new_key] = item[need_key]
+
+        list_with_formatted_data.append(formatted_data)
+
+    return list_with_formatted_data

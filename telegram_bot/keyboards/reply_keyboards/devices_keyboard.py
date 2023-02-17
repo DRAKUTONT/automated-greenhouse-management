@@ -89,3 +89,19 @@ def create_emergency_management_keyboard(is_work: bool = False) -> ReplyKeyboard
     markup.resize_keyboard = True
 
     return markup
+
+
+def create_parameters_keyboard():
+    builder = ReplyKeyboardBuilder()
+
+    builder.row(KeyboardButton(text='T'),
+                KeyboardButton(text='H'),
+                KeyboardButton(text='Hb'),
+                width=3)
+
+    builder.row(KeyboardButton(text='Назад'), width=1)
+
+    markup = builder.as_markup()
+    markup.resize_keyboard = True
+
+    return markup

@@ -17,8 +17,8 @@ async def main():
     )
 
     greenhouse_management_system = GreenhouseManagementSystem(30, 60, 70)
-    # greenhouse_management_system.clear_database()
-    # greenhouse_management_system.fill_database()
+    greenhouse_management_system.clear_database()
+    greenhouse_management_system.fill_database()
 
     bot = Bot(token="5819137091:AAHb8sZIKAq17I9bChUywEzYgYUP30Mi2og")
     dp = Dispatcher()
@@ -27,9 +27,9 @@ async def main():
     dp.include_router(sensors_handler.router)
     dp.include_router(devices_handler.router)
 
-    # scheduler = AsyncIOScheduler(timezone='Europe/Moscow')
-    # scheduler.add_job(update_data, trigger="interval", seconds=1, args=(greenhouse_management_system,))
-    # scheduler.start()
+    scheduler = AsyncIOScheduler(timezone='Europe/Moscow')
+    scheduler.add_job(update_data, trigger="interval", seconds=1, args=(greenhouse_management_system,))
+    scheduler.start()
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot, greenhouse_management_system=greenhouse_management_system)

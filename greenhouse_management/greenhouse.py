@@ -44,14 +44,14 @@ class Greenhouse:
 
     def get_parameters(self) -> dict:
         data = {
-            'max_temp': self.max_temperature,
-            'min_hum': self.min_humidity,
-            'min_soil_hum': self.min_soil_humidity
+            'T': self.max_temperature,
+            'H': self.min_humidity,
+            'Hb': self.min_soil_humidity
         }
 
         return data
 
-    def get_systems_data(self):
+    def get_systems_data(self) -> dict:
         data = {
             'ventilation_system': self.ventilation_system.get_data(),
             'humidification_system': self.humidification_system.get_data(),
