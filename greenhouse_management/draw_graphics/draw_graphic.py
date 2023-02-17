@@ -17,7 +17,7 @@ def draw_graph_average_values(temp_data: list, hum_data: list, filename: str, va
 
 def draw_sensors_graphics(sensors_data: List[list], filename: str, value_count: int, time: int):
     for i, item in enumerate(sensors_data):
-        plt.plot(item, label=f'Сенсор {i + 1}', lw=1)
+        plt.plot(item, label=f'Датчик {i + 1}', lw=1)
 
     plt.xticks(ticks=list(range(value_count)), labels=list(range(time)))
     plt.grid()

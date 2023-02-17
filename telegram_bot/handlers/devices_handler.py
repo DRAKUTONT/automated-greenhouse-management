@@ -6,6 +6,7 @@ from greenhouse_management.greenhouse_management_system import GreenhouseManagem
 from telegram_bot.keyboards.reply_keyboards.devices_keyboard import create_window_device_keyboard, \
     create_humidifier_device_keyboard, create_sprinklers_device_keyboard, create_emergency_management_keyboard, \
     create_sprinkler_device_keyboard
+from telegram_bot.utils.formatting import formatting_sensor_data_for_user, formatting_device_data_for_user
 
 router = Router()
 
@@ -49,7 +50,11 @@ async def disable_humidifier_device_handler(message: Message, greenhouse_managem
 
 @router.message(Text(text=['Система полива', '/sprinklers_device']))
 async def sprinklers_device_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
-    await message.answer('sprinklers_device', reply_markup=create_sprinklers_device_keyboard())
+    data = formatting_device_data_for_user(data=greenhouse_management_system.get_sprinklers_state(),
+                                           device_name='Полив', enable_name='включен', disable_name='выключен')
+
+    text = '\n'.join([f'{key}: {value}' for key, value in data.items()])
+    await message.answer(text, reply_markup=create_sprinklers_device_keyboard())
 
 
 @router.message(Text(startswith='Полив №'))
@@ -75,6 +80,8 @@ async def enable_sprinkler_device_handler(message: Message, greenhouse_managemen
         greenhouse_management_system.set_sprinkler_state(state=True, device_id=device_id)
         await message.answer(f'Полив №{device_id + 1} включен',
                              reply_markup=create_sprinkler_device_keyboard(sprinkler_id=device_id + 1, is_work=True))
+        print(greenhouse_management_system.get_sprinklers_state())
+        print(greenhouse_management_system.get_sprinklers_state())
 
 
 @router.message(Text(startswith='Выключить полив №'))
@@ -86,6 +93,7 @@ async def disable_sprinkler_device_handler(message: Message, greenhouse_manageme
         greenhouse_management_system.set_sprinkler_state(state=False, device_id=device_id)
         await message.answer(f'Полив №{device_id + 1} выключен',
                              reply_markup=create_sprinkler_device_keyboard(sprinkler_id=device_id + 1, is_work=False))
+        print(greenhouse_management_system.get_sprinklers_state())
 
 
 @router.message(Text(text=['Экстренное управление', '/emergency_management']))

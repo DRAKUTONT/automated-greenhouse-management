@@ -78,6 +78,18 @@ class Greenhouse:
         else:
             self.humidification_system.disable_device()
 
+    def get_sprinklers_state(self) -> dict:
+        state = {
+            'sprinkler_1': self.irrigation_system.get_device_state(0),
+            'sprinkler_2': self.irrigation_system.get_device_state(1),
+            'sprinkler_3': self.irrigation_system.get_device_state(2),
+            'sprinkler_4': self.irrigation_system.get_device_state(3),
+            'sprinkler_5': self.irrigation_system.get_device_state(4),
+            'sprinkler_6': self.irrigation_system.get_device_state(5),
+
+        }
+        return state
+
     def is_sprinkler_worked(self, device_id: int) -> bool:
         return self.irrigation_system.get_device_state(device_id)
 

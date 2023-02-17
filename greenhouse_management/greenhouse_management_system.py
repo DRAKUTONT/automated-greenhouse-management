@@ -4,6 +4,7 @@ from greenhouse_management.data_base.get_data import get_max_id, get_humidity, g
 from greenhouse_management.data_base.insert_data import add_temperature, add_humidity, add_soil_humidity
 from greenhouse_management.data_base.update_data import update_temperature, update_humidity, update_soil_humidity, \
     clear_database
+from telegram_bot.utils.formatting import formatting_data_for_graphic
 from greenhouse_management.constants import MAX_VALUES_IN_DB
 
 
@@ -55,6 +56,9 @@ class GreenhouseManagementSystem:
     def set_humidifier_state(self, state: bool):
         self.greenhouse.set_humidifier_state(state=state)
 
+    def get_sprinklers_state(self) -> dict:
+        return self.greenhouse.get_sprinklers_state()
+
     def is_sprinkler_work(self, device_id: int) -> bool:
         return self.greenhouse.is_sprinkler_worked(device_id=device_id)
 
@@ -62,7 +66,7 @@ class GreenhouseManagementSystem:
         self.greenhouse.set_sprinkler_state(state=state, device_id=device_id)
 
     def get_emergency_mode_status(self):
-        return
+        return self.greenhouse.get_emergency_mode_status()
 
     def enable_emergency_mode(self):
         self.greenhouse.enable_emergency_mode()
@@ -84,28 +88,16 @@ class GreenhouseManagementSystem:
     def draw_sensors_graphic(sensor_type: str):
         if sensor_type == 'temp_and_hum':
             temp_data = get_temperatures()
-            temp_values = [[i['temp_1'] for i in temp_data],
-                           [i['temp_2'] for i in temp_data],
-                           [i['temp_3'] for i in temp_data],
-                           [i['temp_4'] for i in temp_data]]
-            draw_sensors_graphics(temp_values, 'temp_graphic.png', 20, 20)
-
             hum_data = get_humidity()
-            hum_values = [[i['hum_1'] for i in hum_data],
-                          [i['hum_2'] for i in hum_data],
-                          [i['hum_3'] for i in hum_data],
-                          [i['hum_4'] for i in hum_data]]
+
+            temp_values, hum_values = formatting_data_for_graphic(type_of_graphic='temp_and_hum', temperature=temp_data, humidity=hum_data)
+            draw_sensors_graphics(temp_values, 'temp_graphic.png', 20, 20)
             draw_sensors_graphics(hum_values, 'hum_graphic.png', 20, 20)
 
         elif sensor_type == 'soil_hum':
             soil_hum_data = get_soil_humidity()
-            hum_values = [[i['soil_hum_1'] for i in soil_hum_data],
-                          [i['soil_hum_2'] for i in soil_hum_data],
-                          [i['soil_hum_3'] for i in soil_hum_data],
-                          [i['soil_hum_4'] for i in soil_hum_data],
-                          [i['soil_hum_5'] for i in soil_hum_data],
-                          [i['soil_hum_6'] for i in soil_hum_data]]
-            draw_sensors_graphics(hum_values, 'soil_hum_graphic.png', 20, 20)
+            soil_hum_values = formatting_data_for_graphic(type_of_graphic='soil_hum', soil_humidity=soil_hum_data)
+            draw_sensors_graphics(soil_hum_values, 'soil_hum_graphic.png', 20, 20)
 
     @staticmethod
     def clear_database():
