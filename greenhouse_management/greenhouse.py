@@ -70,7 +70,7 @@ class Greenhouse:
             self.ventilation_system.disable_device()
 
     def is_humidifier_worked(self) -> bool:
-        return self.ventilation_system.get_device_state()
+        return self.humidification_system.get_device_state()
 
     def set_humidifier_state(self, state: bool):
         if state:

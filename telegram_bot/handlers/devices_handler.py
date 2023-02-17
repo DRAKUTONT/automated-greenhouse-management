@@ -40,7 +40,8 @@ async def disable_window_device_handler(message: Message, greenhouse_management_
 @router.message(Text(text=['Система увлажнения', '/humidifier_device']))
 async def humidifier_device_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
     current_status = 'Включено' if greenhouse_management_system.is_humidifier_work() else 'Выключено'
-    await message.answer(f'Текущий статус: {current_status}', reply_markup=create_humidifier_device_keyboard())
+    await message.answer(f'Текущий статус: {current_status}', reply_markup=create_humidifier_device_keyboard(
+        greenhouse_management_system.is_humidifier_work()))
 
 
 @router.message(Text(text=['Включить увлажнитель']))
@@ -91,9 +92,11 @@ async def enable_sprinkler_device_handler(message: Message, greenhouse_managemen
         try:
             greenhouse_management_system.set_sprinkler_state(state=True, device_id=device_id)
             await message.answer(f'Полив №{device_id + 1} включен',
-                                 reply_markup=create_sprinkler_device_keyboard(sprinkler_id=device_id + 1, is_work=True))
+                                 reply_markup=create_sprinkler_device_keyboard(sprinkler_id=device_id + 1,
+                                                                               is_work=True))
         except SoilHumidityParameterException:
-            await message.answer('Невозможно выполнить данное действие, так как параметр Hb не соответсвует требованиям')
+            await message.answer(
+                'Невозможно выполнить данное действие, так как параметр Hb не соответсвует требованиям')
 
 
 @router.message(Text(startswith='Выключить полив №'))

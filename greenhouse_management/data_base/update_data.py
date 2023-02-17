@@ -2,8 +2,13 @@ from greenhouse_management.data_base.connect_to_db import connect_to_database
 
 
 def clear_database():
-    query = '''DROP TABLE temperature, humidity, soil_humidity'''
-    connect_to_database(query, mode='w')
+    query_1 = '''DELETE FROM temperature'''
+    query_2 = '''DELETE FROM humidity'''
+    query_3 = '''DELETE FROM soil_humidity'''
+
+    connect_to_database(query_1, mode='w')
+    connect_to_database(query_2, mode='w')
+    connect_to_database(query_3, mode='w')
 
 
 def update_temperature(data: dict[str, float]):
