@@ -7,6 +7,9 @@ from telegram_bot.keyboards.reply_keyboards.devices_keyboard import create_windo
     create_humidifier_device_keyboard, create_sprinklers_device_keyboard, create_emergency_management_keyboard, \
     create_sprinkler_device_keyboard
 from telegram_bot.utils.formatting import formatting_sensor_data_for_user, formatting_device_data_for_user
+from greenhouse_management.exceptions.temperature_exception import TemperatureParameterException
+from greenhouse_management.exceptions.humidity_exception import HumidityParameterException
+from greenhouse_management.exceptions.soil_humidity_exception import SoilHumidityParameterException
 
 router = Router()
 
@@ -20,8 +23,12 @@ async def window_device_handler(message: Message, greenhouse_management_system: 
 
 @router.message(Text(text=['Включить привод']))
 async def enable_window_device_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
-    greenhouse_management_system.set_window_state(state=True)
-    await message.answer('Окно открыто', reply_markup=create_window_device_keyboard(True))
+    try:
+        greenhouse_management_system.set_window_state(state=True)
+        await message.answer('Окно открыто', reply_markup=create_window_device_keyboard(True))
+
+    except TemperatureParameterException:
+        await message.answer('Невозможно выполнить данное действие, так как параметр T не соответсвует требованиям')
 
 
 @router.message(Text(text=['Выключить привод']))
@@ -38,8 +45,12 @@ async def humidifier_device_handler(message: Message, greenhouse_management_syst
 
 @router.message(Text(text=['Включить увлажнитель']))
 async def enable_humidifier_device_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
-    greenhouse_management_system.set_humidifier_state(state=True)
-    await message.answer('Увлажнитель включен', reply_markup=create_humidifier_device_keyboard(True))
+    try:
+        greenhouse_management_system.set_humidifier_state(state=True)
+        await message.answer('Увлажнитель включен', reply_markup=create_humidifier_device_keyboard(True))
+
+    except HumidityParameterException:
+        await message.answer('Невозможно выполнить данное действие, так как параметр H не соответсвует требованиям')
 
 
 @router.message(Text(text=['Выключить увлажнитель']))
@@ -77,11 +88,12 @@ async def enable_sprinkler_device_handler(message: Message, greenhouse_managemen
     if -1 < device_id > 5:
         await message.answer('Некорректный номер полива')
     else:
-        greenhouse_management_system.set_sprinkler_state(state=True, device_id=device_id)
-        await message.answer(f'Полив №{device_id + 1} включен',
-                             reply_markup=create_sprinkler_device_keyboard(sprinkler_id=device_id + 1, is_work=True))
-        print(greenhouse_management_system.get_sprinklers_state())
-        print(greenhouse_management_system.get_sprinklers_state())
+        try:
+            greenhouse_management_system.set_sprinkler_state(state=True, device_id=device_id)
+            await message.answer(f'Полив №{device_id + 1} включен',
+                                 reply_markup=create_sprinkler_device_keyboard(sprinkler_id=device_id + 1, is_work=True))
+        except SoilHumidityParameterException:
+            await message.answer('Невозможно выполнить данное действие, так как параметр Hb не соответсвует требованиям')
 
 
 @router.message(Text(startswith='Выключить полив №'))
@@ -93,7 +105,6 @@ async def disable_sprinkler_device_handler(message: Message, greenhouse_manageme
         greenhouse_management_system.set_sprinkler_state(state=False, device_id=device_id)
         await message.answer(f'Полив №{device_id + 1} выключен',
                              reply_markup=create_sprinkler_device_keyboard(sprinkler_id=device_id + 1, is_work=False))
-        print(greenhouse_management_system.get_sprinklers_state())
 
 
 @router.message(Text(text=['Экстренное управление', '/emergency_management']))

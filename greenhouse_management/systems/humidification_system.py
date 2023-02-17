@@ -2,6 +2,7 @@ from typing import List
 from greenhouse_management.sensors.humidity_and_temperature_sensor import HumidityAndTemperatureSensor
 from greenhouse_management.devices.humidifier import Humidifier
 from greenhouse_management.systems.abstract_system import AbstractSystem
+from greenhouse_management.exceptions.humidity_exception import HumidityParameterException
 
 
 class HumidificationSystem(AbstractSystem):
@@ -22,8 +23,11 @@ class HumidificationSystem(AbstractSystem):
         return data
 
     def enable_device(self):
-        if self.calculate_average_sensors_value(self.get_current_sensors_values()) > self.parameter or self.emergency_mode:
+        if self.calculate_average_sensors_value(
+                self.get_current_sensors_values()) > self.parameter or self.emergency_mode:
             self.device.enable()
+        else:
+            raise HumidityParameterException
 
     def disable_device(self):
         self.device.disable()

@@ -2,6 +2,7 @@ from typing import List
 from greenhouse_management.sensors.soil_humidity_sensor import SoilHumiditySensor
 from greenhouse_management.systems.abstract_system import AbstractSystem
 from greenhouse_management.devices.sprinkler import Sprinkler
+from greenhouse_management.exceptions.soil_humidity_exception import SoilHumidityParameterException
 
 
 class IrrigationSystem(AbstractSystem):
@@ -23,13 +24,14 @@ class IrrigationSystem(AbstractSystem):
         return data
 
     def enable_device(self, device_id: int):
-        if self.calculate_average_sensors_value(self.get_current_sensors_values()) < self.parameter or self.emergency_mode:
+        if self.calculate_average_sensors_value(
+                self.get_current_sensors_values()) < self.parameter or self.emergency_mode:
             self.device[device_id].enable()
+        else:
+            raise SoilHumidityParameterException
 
     def disable_device(self, device_id: int):
         self.device[device_id].disable()
 
     def get_device_state(self, device_id: int):
         return self.device[device_id].get_state()
-
-

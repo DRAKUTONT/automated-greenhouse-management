@@ -16,7 +16,7 @@ async def main():
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     )
 
-    greenhouse_management_system = GreenhouseManagementSystem(0, 0, 0)
+    greenhouse_management_system = GreenhouseManagementSystem(30, 60, 70)
     # greenhouse_management_system.clear_database()
     # greenhouse_management_system.fill_database()
 

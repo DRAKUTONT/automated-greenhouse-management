@@ -16,7 +16,7 @@ class Sprinkler(AbstractDevice):
         self.transporter.set_state(params)
 
     def disable(self):
-        self.is_work = True
+        self.is_work = False
 
         params = {
             "id": self.device_id,

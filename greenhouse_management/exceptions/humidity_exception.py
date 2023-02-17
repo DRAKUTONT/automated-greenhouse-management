@@ -1,0 +1,2 @@
+class HumidityParameterException(Exception):
+    pass

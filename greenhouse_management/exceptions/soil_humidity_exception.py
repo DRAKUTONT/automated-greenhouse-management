@@ -1,0 +1,2 @@
+class SoilHumidityParameterException(Exception):
+    pass
