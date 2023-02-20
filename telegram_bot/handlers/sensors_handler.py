@@ -10,7 +10,7 @@ from telegram_bot.utils.formatting import formatting_sensor_data_for_user
 router = Router()
 
 
-@router.message(Text(text=['Температура и влажность', '/temp_and_hum']))
+@router.message(Text(text=['Температура и влажность']))
 async def temp_and_hum_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
     data = greenhouse_management_system.get_data()
 
@@ -40,7 +40,7 @@ async def graph_temp_and_hum_average_value_handler(message: Message,
     await message.answer_photo(FSInputFile('hum_graphic.png'), caption='Данные за последние 20 секунд')
 
 
-@router.message(Text(text=['Влажность почвы', '/soil_humidity']))
+@router.message(Text(text=['Влажность почвы']))
 async def soil_hum_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
     soil_humidity_data = formatting_sensor_data_for_user(greenhouse_management_system.get_data()['irrigation_system'],
                                                          'Датчик влажности почвы', 'Средняя влажность почвы')

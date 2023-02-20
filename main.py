@@ -2,8 +2,9 @@ import asyncio
 import logging
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, Dispatcher
-from telegram_bot.handlers import start, sensors_handler, devices_handler
+from telegram_bot.handlers import start, sensors_handler, devices_handler, parameters_handler
 from greenhouse_management.greenhouse_management_system import GreenhouseManagementSystem
+from greenhouse_management.data_base.create_tables import create_tables
 
 
 async def update_data(greenhouse_management_system: GreenhouseManagementSystem):
@@ -16,6 +17,7 @@ async def main():
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     )
 
+    create_tables()
     greenhouse_management_system = GreenhouseManagementSystem(30, 60, 70)
     greenhouse_management_system.clear_database()
     greenhouse_management_system.fill_database()
@@ -26,6 +28,7 @@ async def main():
     dp.include_router(start.router)
     dp.include_router(sensors_handler.router)
     dp.include_router(devices_handler.router)
+    dp.include_router(parameters_handler.router)
 
     scheduler = AsyncIOScheduler(timezone='Europe/Moscow')
     scheduler.add_job(update_data, trigger="interval", seconds=1, args=(greenhouse_management_system,))

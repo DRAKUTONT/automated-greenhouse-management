@@ -34,9 +34,9 @@ class Greenhouse:
         self.systems = [self.ventilation_system, self.humidification_system, self.irrigation_system]
 
     def set_parameters(self, params: dict):
-        self.max_temperature = params.get('max_temp', self.max_temperature)
-        self.min_humidity = params.get('min_hum', self.min_humidity)
-        self.min_soil_humidity = params.get('min_soil_hum', self.min_soil_humidity)
+        self.max_temperature = params.get('T', self.max_temperature)
+        self.min_humidity = params.get('H', self.min_humidity)
+        self.min_soil_humidity = params.get('Hb', self.min_soil_humidity)
 
         self.ventilation_system.set_parameter(self.max_temperature)
         self.humidification_system.set_parameter(self.min_humidity)

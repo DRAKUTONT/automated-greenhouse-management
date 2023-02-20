@@ -11,10 +11,6 @@ from greenhouse_management.constants import MAX_VALUES_IN_DB
 
 class GreenhouseManagementSystem:
     def __init__(self, max_temperature: int, min_humidity: int, min_soil_humidity: int):
-        self.max_temperature = max_temperature
-        self.min_humidity = min_humidity
-        self.min_soil_humidity = min_soil_humidity
-
         self.greenhouse = Greenhouse(max_temperature, min_humidity, min_soil_humidity)
 
         self.unique_id = get_max_id() + 1
@@ -35,6 +31,7 @@ class GreenhouseManagementSystem:
         update_soil_humidity({**data['irrigation_system'], 'id': self.unique_id})
 
         self.unique_id += 1
+
 
     def get_data(self):
         return self.greenhouse.get_systems_data()

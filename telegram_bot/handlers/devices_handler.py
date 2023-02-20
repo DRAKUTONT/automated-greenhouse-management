@@ -12,7 +12,7 @@ from greenhouse_management.exceptions.soil_humidity_exception import SoilHumidit
 router = Router()
 
 
-@router.message(Text(text=['Проветривание', '/window_device']))
+@router.message(Text(text=['Проветривание']))
 async def window_device_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
     current_status = 'Открыто' if greenhouse_management_system.is_window_work() else 'Закрыто'
     await message.answer(f'Текущий статус: {current_status}',
@@ -35,7 +35,7 @@ async def disable_window_device_handler(message: Message, greenhouse_management_
     await message.answer('Окно закрыто', reply_markup=create_window_device_keyboard(False))
 
 
-@router.message(Text(text=['Система увлажнения', '/humidifier_device']))
+@router.message(Text(text=['Система увлажнения']))
 async def humidifier_device_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
     current_status = 'Включено' if greenhouse_management_system.is_humidifier_work() else 'Выключено'
     await message.answer(f'Текущий статус: {current_status}', reply_markup=create_humidifier_device_keyboard(
@@ -58,7 +58,7 @@ async def disable_humidifier_device_handler(message: Message, greenhouse_managem
     await message.answer('Увлажнитель выключен', reply_markup=create_humidifier_device_keyboard(False))
 
 
-@router.message(Text(text=['Система полива', '/sprinklers_device']))
+@router.message(Text(text=['Система полива']))
 async def sprinklers_device_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
     data = formatting_device_data_for_user(data=greenhouse_management_system.get_sprinklers_state(),
                                            device_name='Полив', enable_name='включен', disable_name='выключен')
@@ -107,7 +107,7 @@ async def disable_sprinkler_device_handler(message: Message, greenhouse_manageme
                              reply_markup=create_sprinkler_device_keyboard(sprinkler_id=device_id + 1, is_work=False))
 
 
-@router.message(Text(text=['Экстренное управление', '/emergency_management']))
+@router.message(Text(text=['Экстренное управление']))
 async def emergency_management_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
     current_status = 'Включено' if greenhouse_management_system.get_emergency_mode_status() else 'Выключено'
     await message.answer(f'Экстренное управление: {current_status}', reply_markup=create_emergency_management_keyboard(
@@ -132,18 +132,3 @@ async def disable_emergency_management_handler(message: Message,
 async def parameters_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
     text = '\n'.join([f'{key}: {value}' for key, value in greenhouse_management_system.get_parameters().items()])
     await message.answer(text, reply_markup=create_parameters_keyboard())
-
-
-@router.message(Text(text='T'))
-async def t_parameter_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
-    await message.answer('---')
-
-
-@router.message(Text(text='H'))
-async def h_parameter_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
-    await message.answer('---')
-
-
-@router.message(Text(text='Hb'))
-async def hb_parameter_handler(message: Message, greenhouse_management_system: GreenhouseManagementSystem):
-    await message.answer('---')

@@ -2,7 +2,7 @@ from greenhouse_management.data_base.connect_to_db import connect_to_database
 
 
 def create_tables():
-    query_1 = '''CREATE TABLE "temperature" (
+    query_1 = '''CREATE TABLE IF NOT EXISTS "temperature" (
                 "temp_1"	REAL,
                 "temp_2"	REAL,
                 "temp_3"	REAL,
@@ -11,7 +11,7 @@ def create_tables():
                 "id"	INTEGER
             );'''
 
-    query_2 = '''CREATE TABLE "humidity" (
+    query_2 = '''CREATE TABLE IF NOT EXISTS "humidity" (
                 "hum_1"	REAL,
                 "hum_2"	REAL,
                 "hum_3"	REAL,
@@ -20,7 +20,7 @@ def create_tables():
                 "id"	INTEGER
             );'''
 
-    query_3 = '''CREATE TABLE "soil_humidity" (
+    query_3 = '''CREATE TABLE IF NOT EXISTS "soil_humidity" (
                 "soil_hum_1"	REAL,
                 "soil_hum_2"	REAL,
                 "soil_hum_3"	REAL,
